@@ -1,0 +1,59 @@
+###
+# @name createAsset
+POST http://localhost:3000/assets
+Content-Type: application/json
+
+{
+  "name": "Mercado Pago",
+  "symbol": "PAGO",
+  "price": 300,
+  "image": "NVDA.png"
+}
+
+###
+
+@assetId = {{ createAsset.response.body._id }}
+
+GET http://localhost:3000/assets
+
+###
+
+GET http://localhost:3000/assets/A1
+
+###
+#  @name createWallet
+POST http://localhost:3000/wallets
+
+###
+
+@walletId = {{ createWallet.response.body._id }}
+
+GET http://localhost:3000/wallets
+
+###
+
+GET http://localhost:3000/wallets/06e65c18-f607-4d79-a393-9ee1313d9989
+
+###
+POST http://localhost:3000/wallets/{{ walletId }}/assets
+Content-Type: application/json
+
+{
+  "assetId": "{{ assetId }}",
+  "shares": 100
+}
+
+###
+POST http://localhost:3000/orders
+Content-Type: application/json
+
+{
+  "walletId": "06e65c18-f607-4d79-a393-9ee1313d9989",
+  "assetId": "8529b6d0-eb97-4f11-b87a-36ab903be4ab",
+  "shares": 150,
+  "price": 100,
+  "type": "BUY"
+}
+
+###
+GET http://localhost:3000/orders?walletId=06e65c18-f607-4d79-a393-9ee1313d9989
